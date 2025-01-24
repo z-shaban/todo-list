@@ -33,6 +33,6 @@ export class Project{
 
     delete(todo){
         this.todo.splice(todo, 1);
-        console.log("your new array ater deletion is", this.todo)
+        console.log("your new array after deletion is", this.todo)
     }
 }

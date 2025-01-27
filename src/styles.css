@@ -1,12 +1,30 @@
-html{
-  display: flex;
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  display: flex; 
+  box-sizing: border-box;
 }
+
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: row;
-    text-align: center;
-    background-color: #f0f0f0;
-  }
+  font-family: Arial, sans-serif;
+}
+
+
+#project, #task { 
   
- 
+  height: 100%; 
+}
+
+
+#project {
+  width: 20%;
+  background-color: #d1e7dd; 
+}
+
+#task {
+  width: 80%;
+  background-color: #f8d7da; 
+}

@@ -1,20 +1,34 @@
 import { Project } from "./projects";
  export class App{
     constructor(){
-        this.project = [];
+        this.projects = [];
     }
 
     print(){
-        console.log(this.project);
+        console.log(this.projects);
      }
 
     create(name){
       const project = new Project(name);
-      this.project.push(project);
+      this.projects.push(project);
+            const myProject = document.createElement("div");
+            const projectName = document.createElement("button");
+            const edit = document.createElement("button");
+            const remove = document.createElement("button");
+
+            edit.id = "edit";
+            remove.id = "remove"
+
+            projectName.textContent = name;
+            edit.textContent = "EDIT";
+            remove.textContent = "REMOVE";
+            myProject.append(projectName, edit, remove)
+           return myProject;
+
     }
 
     view(project){
-        this.project.forEach((num, index)=>{
+        this.projects.forEach((num, index)=>{
             if(index==project){
                 console.log("this is", num);
             }
@@ -22,16 +36,32 @@ import { Project } from "./projects";
     }
 
     edit(project, name){
-        this.project.forEach((num,index)=>{
+        for(let index = 0; index < this.projects.length; index++){
             if(index == project){
-                this.project[index] = new Project(name);
-                console.log('your edited app is',this.project)
-            }
-        })
+                console.log('your edited app is',this.projects)
+                this.projects[index] = new Project(name);
+                const myProject = document.createElement("div");
+                const projectName = document.createElement("button");
+                const edit = document.createElement("button");
+               const remove = document.createElement("button");
+
+            edit.id = "edit";
+            remove.id = "remove"
+
+            projectName.textContent = name;
+            edit.textContent = "EDIT";
+            remove.textContent = "REMOVE";
+            myProject.append(projectName, edit, remove)
+           return myProject;
+
+        }
+        
     }
+    return null;
+}
 
     delete(project){
-        this.project.splice(project,1)
-        console.log("your new array after deletion is", this.project)
+        this.projects.splice(project,1)
+        console.log("your new array after deletion is", this.projects)
     }
  }

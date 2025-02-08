@@ -1,7 +1,8 @@
 import {myApp} from "./index.js"
+import { Project } from "./projects.js";
 
 const projectContainer = document.querySelector('#project');
-const task = document.querySelector('#task');
+const taskContainer = document.querySelector('#task');
 const createProject = document.querySelector("#createProject");
 
 export function renderProject(project, index){
@@ -27,10 +28,41 @@ export function renderProject(project, index){
                 myProject.remove();
             })
             viewProject.addEventListener("click",()=>{
-                task.textContent = "";
-                task.textContent = myApp.view(index);
-            })
-}
+                const projectIndex = myApp.view(index)
+                taskContainer.textContent = "";
+                const createTodo = document.createElement("button");
+                createTodo.textContent = "ADD TODO"
+                taskContainer.appendChild(createTodo);
+                
+                createTodo.addEventListener("click",()=>{
+                    openCreateTodo(project, index);
+                })
+    
+                
+                if (projectIndex){
+                    project.todo.forEach((todo, index)=>{
+                    renderTodo(todo, index);
+                    
+                })}
+            })}
+
+ function renderTodo(todo, index){
+            const myTodo = document.createElement("div");
+            const viewTodo = document.createElement("button");
+            const edit = document.createElement("button");
+            const remove = document.createElement("button");
+
+            edit.id = "edit";
+            remove.id = "remove"
+            viewTodo.id = "viewTask"
+
+            viewTodo.textContent = todo.title;
+            edit.textContent = "EDIT";
+            remove.textContent = "REMOVE";
+
+            myTodo.append(viewTodo, edit, remove)
+            taskContainer.appendChild(myTodo)
+            return myTodo;}
 
 function openEditDialog(index, projecElement){
     const editDialog = document.createElement("dialog");
@@ -88,3 +120,43 @@ createProject.addEventListener("click", ()=>{
         createDialog.remove();
     })
 })
+
+function openCreateTodo(project,index){
+    const todoDialog = document.createElement("dialog");
+    todoDialog.id = "todoDialog";
+    todoDialog.innerHTML = `
+    <h2>ADD a TODO</h2>
+    <input type="text" name="title" id="title" placeholder="Enter todo Name">
+    <input type="text" name="description" id="description" placeholder="Description">
+    <input type="text" name="dueDate" id="dueDate" placeholder="Due Date">
+    <input type="text" name="priority" id="priority" placeholder="Priority">
+    <button id="closeCreate">CLOSE</button>
+    <button id="confirmCreate">CREATE</button>
+    `
+    
+    taskContainer.appendChild(todoDialog);
+    todoDialog.showModal();
+
+    const close = todoDialog.querySelector("#closeCreate");
+    close.addEventListener("click",()=>{
+        todoDialog.close();
+        todoDialog.remove();
+    })
+
+    document.querySelector("#confirmCreate").addEventListener("click",()=>{
+           const title = document.querySelector("#title").value;
+           const description = document.querySelector("#description").value;
+           const dueDate= document.querySelector("#dueDate").value;
+           const priority = document.querySelector("#priority").value
+
+            const newTask = project.create(title,description,dueDate,priority);
+            renderTodo(newTask,project.todo.length-1)
+            console.log(project.todo)
+           
+           todoDialog.close();
+           todoDialog.remove();
+           
+    })
+        
+
+}

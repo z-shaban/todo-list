@@ -18,6 +18,9 @@ import { Project } from "./projects";
     view(index){
         console.log("view",this.projects[index])
         return this.projects[index];
+        /*if (this.projects[index]) {
+        const project = this.projects[index];
+                return project;}*/
     }
 
     edit(index, newName){

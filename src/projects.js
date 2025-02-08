@@ -12,6 +12,7 @@ export class Project{
     create(title,description, dueDate, priority){
         const todo = new Todo(title,description, dueDate, priority);
         this.todo.push(todo);
+        return todo;
     }
 
     view(todo){

@@ -212,7 +212,7 @@ function createTodoDialog(project, projectIndex){
         const priority = document.querySelector("#priority").value
 
          const newTask = project.create(title,description,dueDate,priority);
-         renderTodo(newTask,project.todo.length-1)
+         renderTodo(newTask,project.todo.length-1, projectIndex)
          
         
         createTodoDialog.close();

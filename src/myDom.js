@@ -37,6 +37,7 @@ function viewProjectCard(project,projectIndex){
     const createTodo = document.createElement("button");
     createTodo.textContent = "ADD TODO"
     todoContainer.appendChild(createTodo);
+    createTodo.addEventListener("click",()=>{createTodoDialog(project,projectIndex)})
 
     project.todo.forEach((todo, todoIndex)=> renderTodo(todo, todoIndex, projectIndex))
 }
@@ -63,7 +64,11 @@ function renderTodo(todo, todoIndex, projectIndex){
         const project = myApp.projects[projectIndex];
         editTodoDialog(project,projectIndex,todo,todoIndex)});
 
-
+    removeTodo.addEventListener('click',()=>{
+        const project = myApp.projects[projectIndex];
+        project.delete(todoIndex);
+        viewProjectCard(project,projectIndex)
+    })
     
 }
 
@@ -177,6 +182,45 @@ function editTodoDialog(project,projectIndex,todo, todoIndex){
         editTodoDialog.close();
         editTodoDialog.remove();
     })
+}
+
+function createTodoDialog(project, projectIndex){
+    const createTodoDialog = document.createElement("dialog");
+    createTodoDialog.id = "todoDialog";
+    createTodoDialog.innerHTML = `
+    <h2>ADD a TODO</h2>
+    <input type="text" name="title" id="title" placeholder="Enter todo Name">
+    <input type="text" name="description" id="description" placeholder="Description">
+    <input type="text" name="dueDate" id="dueDate" placeholder="Due Date">
+    <input type="text" name="priority" id="priority" placeholder="Priority">
+    <button id="closeCreateTodoDialog">CLOSE</button>
+    <button id="confirmCreateTodo">CREATE</button>
+    `
+    
+    todoContainer.appendChild(createTodoDialog);
+    createTodoDialog.showModal();
+
+    createTodoDialog.querySelector("#closeCreateTodoDialog").addEventListener("click",()=>{
+        createTodoDialog.close();
+        createTodoDialog.remove();
+    })
+
+       createTodoDialog.querySelector("#confirmCreateTodo").addEventListener("click",()=>{
+        const title = document.querySelector("#title").value;
+        const description = document.querySelector("#description").value;
+        const dueDate= document.querySelector("#dueDate").value;
+        const priority = document.querySelector("#priority").value
+
+         const newTask = project.create(title,description,dueDate,priority);
+         renderTodo(newTask,project.todo.length-1)
+         
+        
+        createTodoDialog.close();
+        createTodoDialog.remove();
+        
+ })
+     
+
 }
 function reRenderProjects(){
     projectContainer.innerHTML = "";

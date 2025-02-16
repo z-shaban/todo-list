@@ -26,12 +26,11 @@ export class Project{
         todo.description = description;
         todo.dueDate = dueDate;
         todo.priority = priority;
-        console.log(todo)
         return todo;
     }
 
-    delete(index){
-        this.todo.splice(index, 1);
+    delete(todoIndex){
+        this.todo.splice(todoIndex, 1);
         console.log("your new array after deletion is", this.todo)
     }
 }

@@ -13,13 +13,13 @@ body {
 }
 
 
-#project, #task { 
+.box, #task { 
   
   height: 100%; 
 }
 
 
-#project {
+.box {
   width: 20%;
   background-color: #d1e7dd; 
 }

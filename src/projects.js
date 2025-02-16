@@ -26,6 +26,7 @@ export class Project{
         todo.description = description;
         todo.dueDate = dueDate;
         todo.priority = priority;
+        console.log(todo)
         return todo;
     }
 

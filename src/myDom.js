@@ -26,22 +26,22 @@ export function renderProject(project, projectIndex){
             removeProject.addEventListener("click",()=>{
                 myApp.delete(projectIndex);
                 reRenderProjects();
+                todoContainer.innerHTML= "";
             })
 
-            viewProject.addEventListener("click", ()=>{viewProjectCard(project, projectIndex)})
+            viewProject.addEventListener("click", ()=>{viewProjectCard(project,projectIndex)})
 }
 
 function viewProjectCard(project,projectIndex){
-    myApp.view(projectIndex);
     todoContainer.innerHTML = "";
     const createTodo = document.createElement("button");
     createTodo.textContent = "ADD TODO"
     todoContainer.appendChild(createTodo);
 
-    project.todo.forEach((todo, todoIndex)=> renderTodo(todo, todoIndex))
+    project.todo.forEach((todo, todoIndex)=> renderTodo(todo, todoIndex, projectIndex))
 }
 
-function renderTodo(todo, todoIndex){
+function renderTodo(todo, todoIndex, projectIndex){
     const todoCard = document.createElement("div");
     const viewTodo = document.createElement("button");
     const editTodo = document.createElement("button");
@@ -57,6 +57,12 @@ function renderTodo(todo, todoIndex){
 
     todoCard.append(viewTodo, editTodo, removeTodo)
     todoContainer.appendChild(todoCard)
+
+    viewTodo.addEventListener("click",()=> viewTodoCard(todo, todoIndex));
+    editTodo.addEventListener("click",()=> {
+        const project = myApp.projects[projectIndex];
+        editTodoDialog(project,projectIndex,todo,todoIndex)});
+
 
     
 }
@@ -117,6 +123,61 @@ createProject.addEventListener("click",()=>{
         })
 })
 
+function viewTodoCard(todo, todoIndex){
+   const todoDialog = document.createElement("dialog");
+    todoDialog.id = "todoDialog";
+    todoDialog.innerHTML = `
+    <h2>TODO</h2>
+    <p>NAME:  ${todo.title}</p>
+    <p>DESCRIPTION: ${todo.description}</p>
+    <p>DUE DATE: ${todo.dueDate}</p>
+    <p>PRIORITY: ${todo.priority}</p>
+    <button id="closeCreate">CLOSE</button>
+    `
+    
+    todoContainer.appendChild(todoDialog);
+    todoDialog.showModal();
+
+    const close = todoDialog.querySelector("#closeCreate");
+    close.addEventListener("click",()=>{
+        todoDialog.close();
+        todoDialog.remove();
+    })
+}
+
+function editTodoDialog(project,projectIndex,todo, todoIndex){
+    const editTodoDialog = document.createElement("dialog");
+    editTodoDialog.id = "editTodoDialog";
+    editTodoDialog.innerHTML = `
+    <h2>EDIT TODO</h2>
+    <input type="text" name="title" id="title" value="${todo.title}">
+    <input type="text" name="description" id="description" value="${todo.description}">
+    <input type="text" name="dueDate" id="dueDate" value="${todo.dueDate}">
+    <input type="text" name="priority" id="priority" value="${todo.priority}">
+    <button id="closeEditTodoDialog">CLOSE</button>
+    <button id="confirmEditTodo">EDIT</button>
+    `
+    
+    todoContainer.appendChild(editTodoDialog);
+    editTodoDialog.showModal();
+
+    editTodoDialog.querySelector("#closeEditTodoDialog").addEventListener("click",()=>{
+        editTodoDialog.close();
+        editTodoDialog.remove();
+    })
+
+    editTodoDialog.querySelector("#confirmEditTodo").addEventListener("click",()=>{
+        const title = editTodoDialog.querySelector("#title").value;
+        const description = editTodoDialog.querySelector("#description").value;
+        const dueDate= editTodoDialog.querySelector("#dueDate").value;
+        const priority = editTodoDialog.querySelector("#priority").value
+
+        project.edit(todoIndex, title, description, dueDate, priority);
+        viewProjectCard(project,projectIndex)
+        editTodoDialog.close();
+        editTodoDialog.remove();
+    })
+}
 function reRenderProjects(){
     projectContainer.innerHTML = "";
     myApp.projects.forEach((project, index) => renderProject(project, index));

@@ -15,22 +15,22 @@ import { Project } from "./projects";
 
     }
 
-    view(index){
-        console.log("view",this.projects[index])
-        return this.projects[index];
+    view(projectIndex){
+        console.log("view",this.projects[projectIndex])
+        return this.projects[projectIndex];
         /*if (this.projects[index]) {
         const project = this.projects[index];
                 return project;}*/
     }
 
-    edit(index, newName){
-     this.projects[index].name = newName;
+    edit(editedName, projectIndex){
+     this.projects[projectIndex].name = editedName;
      console.log(this.projects)
     }
    
 
-    delete(project){
-        this.projects.splice(project,1)
+    delete(projectIndex){
+        this.projects.splice(projectIndex,1)
         console.log("your new array after deletion is", this.projects)
     }
  }

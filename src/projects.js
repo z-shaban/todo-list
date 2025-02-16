@@ -15,25 +15,22 @@ export class Project{
         return todo;
     }
 
-    view(todo){
-      this.todo.forEach((num, index) =>{
-        if(index == todo){
-            console.log("you are viewing", num);
-        }
-      })
+    view(index){
+        console.log("view",this.todo[index])
+        return this.todo[index];
     }
 
-    edit(todo,title,description, dueDate, priority){
-        this.todo.forEach((num, index) =>{
-            if(index == todo){
-                this.todo[index] = new Todo(title,description, dueDate, priority);
-                console.log("your edited todo is", this.todo);
-            }
-        })
+    edit(index,title,description, dueDate, priority){
+        const todo =this.todo[index];
+        todo.title = title;
+        todo.description = description;
+        todo.dueDate = dueDate;
+        todo.priority = priority;
+        return todo;
     }
 
-    delete(todo){
-        this.todo.splice(todo, 1);
+    delete(index){
+        this.todo.splice(index, 1);
         console.log("your new array after deletion is", this.todo)
     }
 }

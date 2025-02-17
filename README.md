@@ -15,3 +15,5 @@ A starter template for Webpack projects with development and production configur
 - Webpack 5 setup
 - Development mode with live reloading
 - Production build with minification and optimization
+
+
